@@ -1,32 +1,41 @@
+## Interact with deployed smart contract
+You can directly interact with the function through verified source code on explorer.
+
 ### [PolyPTS source code]
 https://optimism-sepolia.blockscout.com/address/0x5a2e1C779158B8500557920bdc81E4cc53DEe54E?tab=write_contract
-
-read balanceOf(your address) to get current points
+- read balanceOf(your address) to get current points
 
 ### [PolyNFT source code]
 https://base-sepolia.blockscout.com/address/0x3DACA6eB95A079e6678Fb45dF53F3c64BF246fE3?tab=write_contract
 
-write crossChainMint() to spend points to mint NFT
-
-write crossChainBurn() to burn NFT and get refunds
-(depre) - destAddr please fill: 0x50845E818229fFE8Eb39dcB77541a447285b446F
-(new) perform setDestAddr(0x50845E818229fFE8Eb39dcB77541a447285b446F)
-(depre) - channelId please fill: 0x6368616e6e656c2d313100000000000000000000000000000000000000000000
-(new) perform setchannelId(0x6368616e6e656c2d313100000000000000000000000000000000000000000000)
-- timeoutsecond please fill: 36000
-- pType please fill 0~3 corresponding to one of the four types of NFT; fill 5 to mint a random one
-- tokenIdforBurn please fill Id of one of your holding token
+- write crossChainMint() to spend points to mint NFT
+- write crossChainBurn() to burn NFT and get refunds
+>(depre) - destAddr please fill: 0x50845E818229fFE8Eb39dcB77541a447285b446F\
+>(depre) - channelId please fill: 0x6368616e6e656c2d313100000000000000000000000000000000000000000000\
+- (new) perform setDestAddr(0x50845E818229fFE8Eb39dcB77541a447285b446F)\
+  (new) perform setchannelId(0x6368616e6e656c2d313100000000000000000000000000000000000000000000)\
+  timeoutsecond please fill: 36000
+- to mint/buy, pType = 0~3 (corresponding to one of the four types of NFT); = 4 to mint a random one
+- to burn, please fill Id of one of your holding token
 
 ### [SpinWheelGame source code]
 https://optimism-sepolia.blockscout.com/address/0x3DACA6eB95A079e6678Fb45dF53F3c64BF246fE3?tab=write_contract
 
-write spinTheWheel to get random PTS from 1 to 10 (five minutes between each spin)
-
-note: front-end not done
-
+- write spinTheWheel to get random PTS from 1 to 10 (five minutes between each spin)
 
 ==================================================================================================
+## Deploy your own 
 
+After deploy the smart contract, things have to be done in advance (as the contract deployer):\
+1. initial setting of PolyNFT
+   - perform setDestAddr([address of deployed PolyPTS on optimism]) to set crosschain counterpart\
+   - perform setchannelId(0x6368616e6e656c2d313100000000000000000000000000000000000000000000) to set communication channel\
+2. initial setting of PolyPTS
+   - mint tokens to deployed SpinWheelGame address so that the contract own tokens to distribute.
+3. initial setting of SpinWheelGame
+   - setAddress([address of deployed PolyPTS on optimism]) to distribute assigned token
+
+Below are the installation process provided by Polymer.
 # ⛓️🔗⛓️ Template for IBC enabled Solidity contracts
 
 This repo provides a starter project to build [IBC](https://github.com/cosmos/ibc) enabled Solidity contracts that connect rollups to one another Polymer Hub, through the [vIBC core contracts](https://github.com/open-ibc/vibc-core-smart-contracts).
